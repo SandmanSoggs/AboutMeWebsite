@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Amazon Link Tagger</title>
-  <style>
-    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
-    input, button {
-      display: block;
-      box-sizing: border-box;
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    #output { margin-top: 20px; font-weight: bold; }
-  </style>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title>Amazon Link Tagger</title>
+    <link rel="icon" type="image/png" href="https://soggs.uk/amazonpageicon.png">
+    <style>
+      body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+      input, button {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      #output { margin-top: 20px; font-weight: bold; }
+      .price-history-link {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: normal;
+      }
+    </style>
+  </head>
 <body>
-  <h2>Sam's Affiliate Link Adder</h2>
-  <p>Paste any Amazon link below to add my affiliate tag 💖</p>
+  <h2>Amazon Affiliate Link Adder</h2>
+  <p>Paste any Amazon link below to support me! 💖</p>
 
   <input type="text" id="amazonUrl" placeholder="Paste Amazon product URL here">
   <button onclick="addTag()">Generate Affiliate Link</button>
@@ -34,9 +40,24 @@
           document.getElementById('output').textContent = 'This is not an Amazon URL.';
           return;
         }
-        url.searchParams.set('tag', 'soggs-21'); 
-        document.getElementById('output').innerHTML = 
-          `✅ Your affiliate link: <br><a href="${url}" target="_blank">${url}</a>`;
+
+        url.searchParams.set('tag', 'soggs-21'); // Replace with your affiliate tag
+
+        // Extract ASIN
+        const asinMatch = url.pathname.match(/\/([A-Z0-9]{10})(?:[/?]|$)/i);
+        const asin = asinMatch ? asinMatch[1] : null;
+
+        const output = document.getElementById('output');
+        output.innerHTML = `✅ Thanks for your support! Your new link is:<br><a href="${url}" target="_blank">${url}</a>`;
+
+        if (asin) {
+          output.innerHTML += `
+            <div class="price-history-link">
+              📉 <a href="https://camelcamelcamel.com/product/${asin}" target="_blank">
+              View Price History on CamelCamelCamel</a>
+            </div>
+          `;
+        }
       } catch (e) {
         document.getElementById('output').textContent = 'Please enter a valid URL.';
       }
