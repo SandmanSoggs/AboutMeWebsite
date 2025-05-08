@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Amazon Link Tagger</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    input, button {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    #output { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Amazon Affiliate Link Generator</h2>
+  <p>Paste any Amazon link below to add my affiliate tag 💖</p>
+
+  <input type="text" id="amazonUrl" placeholder="Paste Amazon product URL here">
+  <button onclick="addTag()">Generate Affiliate Link</button>
+
+  <div id="output"></div>
+
+  <script>
+    function addTag() {
+      const input = document.getElementById('amazonUrl').value;
+      try {
+        const url = new URL(input);
+        if (!url.hostname.includes('amazon')) {
+          document.getElementById('output').textContent = 'This is not an Amazon URL.';
+          return;
+        }
+        url.searchParams.set('tag', 'soggs-21'); 
+        document.getElementById('output').innerHTML = 
+          `✅ Your affiliate link: <br><a href="${url}" target="_blank">${url}</a>`;
+      } catch (e) {
+        document.getElementById('output').textContent = 'Please enter a valid URL.';
+      }
+    }
+  </script>
+</body>
+</html>
